@@ -6,14 +6,10 @@ with open('/home/aditya/encdec/filekey.key', 'rb') as filekey:
 
 fernet = Fernet(key)
 
-# opening the encrypted file
-with open('/home/aditya/encdec/enc_file1.csv', 'rb') as enc_file:
+with open('/home/aditya/encdec/enc_HealthCare.csv', 'rb') as enc_file:
 	encrypted = enc_file.read()
 
-# decrypting the file
 decrypted = fernet.decrypt(encrypted)
 
-# opening the file in write mode and
-# writing the decrypted data
-with open('/home/aditya/encdec/dec_file1.csv', 'wb') as dec_file:
+with open('/home/aditya/encdec/dec_HealthCare.csv', 'wb') as dec_file:
 	dec_file.write(decrypted)
