@@ -9,11 +9,6 @@ from cryptography.fernet import Fernet
 # with open('/home/aditya/filekey.key', 'wb') as filekey:
 #     filekey.write(key)
 
-if os.path.exists("/home/aditya/encdec/enc_HealthCare.csv"):
-    os.remove("enc_HealthCare.csv")
-if os.path.exists("/home/aditya/encdec/dec_HealthCare.csv"):
-    os.remove("dec_Healthcare.csv")
-
 topic_name = 'encrypt'
 producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
