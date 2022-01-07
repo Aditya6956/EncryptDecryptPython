@@ -1,5 +1,5 @@
-# opening the key
-# import required module
+import os
+from kafka import KafkaProducer
 from cryptography.fernet import Fernet
 
 # # key generation
@@ -9,20 +9,27 @@ from cryptography.fernet import Fernet
 # with open('/home/aditya/filekey.key', 'wb') as filekey:
 #     filekey.write(key)
 
+if os.path.exists("/home/aditya/encdec/enc_HealthCare.csv"):
+    os.remove("enc_HealthCare.csv")
+if os.path.exists("/home/aditya/encdec/dec_HealthCare.csv"):
+    os.remove("dec_Healthcare.csv")
+
+topic_name = 'encrypt'
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
+
 with open('/home/aditya/encdec/filekey.key', 'rb') as filekey:
 	key = filekey.read()
 
-# using the generated key
 fernet = Fernet(key)
 
-# opening the original file to encrypt
-with open('/home/aditya/encdec/file1.csv', 'rb') as file:
+with open('/home/aditya/encdec/HealthCare.csv', 'rb') as file:
 	original = file.read()
 	
-# encrypting the file
 encrypted = fernet.encrypt(original)
 
-# opening the file in write mode and
-# writing the encrypted data
-with open('/home/aditya/encdec/enc_file1.csv', 'wb') as encrypted_file:
+with open('/home/aditya/encdec/enc_HealthCare.csv', 'wb') as encrypted_file:
 	encrypted_file.write(encrypted)
+
+with open('/home/aditya/encdec/enc_HealthCare.csv', 'rb') as encrypted_file:
+    data = encrypted_file.read()
+    producer.send(topic_name, data)
